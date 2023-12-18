@@ -1,0 +1,9 @@
+[Unit]
+Description=Start_STA script
+
+[Service]
+ExecStart=sh /root/Start_STA.sh
+Type=forking
+
+[Install]
+WantedBy=default.target
