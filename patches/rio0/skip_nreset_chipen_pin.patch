@@ -1,0 +1,24 @@
+diff -u a/sdio.c b/sdio.c
+--- a/sdio.c	2023-10-23 14:05:18.000000000 +0800
++++ b/sdio.c	2023-12-12 14:50:14.208000000 +0800
+@@ -216,16 +216,16 @@
+ 		of_node_put(np);
+ 	} else {
+ 		ret = wilc_of_parse_power_pins(wilc);
+-		if (ret)
+-			goto disable_rtc_clk;
++		//if (ret)
++		//	goto disable_rtc_clk;
+ 	}
+-
++/*
+ 	if (!init_power) {
+ 		wilc_wlan_power(wilc, false);
+ 		init_power = 1;
+ 		wilc_wlan_power(wilc, true);
+ 	}
+-
++*/
+ 	wilc_bt_init(wilc);
+ #ifdef RIO0_HOST_FW_UPGRADE
+ 	if (!wilc->hif_func->hif_is_init(wilc)) {
