@@ -21,6 +21,8 @@ elif grep -Eq "^BR2_PACKAGE_CRYPTOAUTHLIB_SAMA5D27_SOM1_EK=y$" ${BR2_CONFIG}; th
 	sed -i "s/interface = .*/interface = i2c,0xC0,0/" ${TARGET_DIR}/var/lib/cryptoauthlib/0.conf
 elif grep -Eq "^BR2_PACKAGE_CRYPTOAUTHLIB_SAMA5D27_WLSOM1_EK=y$" ${BR2_CONFIG}; then
 	sed -i "s/interface = .*/interface = i2c,0x6A,0/" ${TARGET_DIR}/var/lib/cryptoauthlib/0.conf
+elif grep -Eq "^BR2_PACKAGE_CRYPTOAUTHLIB_SAMA5D29_CURIOSITY=y$" ${BR2_CONFIG}; then
+	sed -i "s/interface = .*/interface = i2c,0x6A,1/" ${TARGET_DIR}/var/lib/cryptoauthlib/0.conf
 fi
 
 if grep -Eq "^BR2_PACKAGE_GREENGRASS_CORE=y$" ${BR2_CONFIG}; then
@@ -47,18 +49,4 @@ if grep -Eq "^BR2_PACKAGE_GREENGRASS_CORE=y$" ${BR2_CONFIG}; then
 			cgroup    /sys/fs/cgroup    cgroup    defaults    0  0
 		_EOF_
 	fi
-fi
-
-if grep -Eq "^BR2_PACKAGE_SYSTEMD=y$" ${BR2_CONFIG}; then
-	mv ${TARGET_DIR}/usr/lib/systemd/system/dhcpd.service ${TARGET_DIR}/usr/lib/systemd/system/dhcpd.service.example
-	rm -rf ${TARGET_DIR}/etc/systemd/system/multi-user.target.wants/dhcpd.service
-	rm -rf ${TARGET_DIR}/etc/systemd/system/multi-user.target.wants/wpa_supplicant.service
-	rm -rf ${TARGET_DIR}/usr/lib/systemd/system/wpa_supplicant.service
-fi
-if grep -Eq "^BR2_TARGET_OPTEE_OS=y$" ${BR2_CONFIG}; then
-	cp ${BR2_EXTERNAL}/package/optee-client/tee-supplicant.service \
-	${TARGET_DIR}/usr/lib/systemd/system/tee-supplicant.service
-	mkdir -p ${TARGET_DIR}/etc/systemd/system/basic.target.wants
-	ln -sf /usr/lib/systemd/system/tee-supplicant.service \
-	${TARGET_DIR}/etc/systemd/system/basic.target.wants/tee-supplicant.service
 fi

@@ -25,28 +25,34 @@ required.  It will let you know what those are.
 
 ## Buildroot Dependencies
 
-For AT91, this buildroot external works only with the specific buildroot-at91
-version 2023.02-at91.
+For AT91, this buildroot external works only with the specific buildroot-mchp
+version 2024.02-mchp.
 
 For PolarFire SoC, this buildroot external was tested and works with buildroot
-version 2022.02.
+version 2024.02.
 
 
 ## Build
 
 Clone, configure, and build.  When building, use the appropriate defconfig in
 the `buildroot-external-microchip/configs` directory for your board.
-Here, as an example, we use `sama5d4_xplained_graphics_defconfig`.
 
-    git clone https://github.com/linux4microchip/buildroot-external-microchip.git -b 2023.02-mchp
-    git clone https://github.com/linux4sam/buildroot-at91.git -b 2023.02-at91
-    cd buildroot-at91
-    BR2_EXTERNAL=../buildroot-external-microchip/ make sama5d4_xplained_graphics_defconfig
+For AT91 configurations, as an example, we use `sama5d4_xplained_graphics_defconfig`.
+
+    git clone https://github.com/linux4microchip/buildroot-external-microchip.git
+    git clone https://github.com/linux4microchip/buildroot-mchp.git -b 2024.02-mchp
+    cd buildroot-mchp
+    export BR2_EXTERNAL=../buildroot-external-microchip/
+    make sama5d4_xplained_graphics_defconfig
     make
 
-For PolarFire SoCs, use the buildroot instead.
+For PolarFire SoC configurations, as an example, we use `icicle_defconfig`.
 
-    git clone https://git.busybox.net/buildroot -b 2022.02
+    git clone https://github.com/linux4microchip/buildroot-external-microchip.git
+    git clone https://git.busybox.net/buildroot -b 2024.02
+    cd buildroot
+    BR2_EXTERNAL=../buildroot-external-microchip/ make icicle_defconfig
+    make
 
 The resulting bootloader, kernel, and root filesystem will be put in the
 'output/images' directory.  There is also a complete `sdcard.img`.
@@ -152,9 +158,9 @@ contains a FAT filesystem with a U-Boot env and an ITB file containing
 the kernel and the device tree. The third partition contains the file
 system. This image can be written directly to the eMMC or an SD card.
 
-The `icicle_defconfig` generates an image with RAM-based
-filesystem, whereas the `icicle_rootfs_defconfig` generates an image containing
-a root filesystem.
+The `icicle_defconfig` generates an image containing a root filesystem, whereas
+the `icicle_initramfs_defconfig` generates an image with a RAM-based
+filesystem.
 
 There are several ways to copy the image to the eMMC or an SD card:
 
