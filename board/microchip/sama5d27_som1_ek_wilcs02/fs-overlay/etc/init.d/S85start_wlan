@@ -2,7 +2,11 @@
 modprobe wilc-sdio
 case "$1" in
         start)
-                sh /root/Start_STA.sh
+		if [ -e "/etc/run_sta" ]; then
+                	sh /root/Start_STA.sh
+		else
+			sh /root/Start_AP.sh
+		fi
                 ;;
         stop)
                 ifconfig wlan0 down
